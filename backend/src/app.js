@@ -1,13 +1,14 @@
-import express from "express";
-import cors from "cors";
 
-import searchRoutes from "./routes/search.routes.js";
-
+const express = require("express")
+const cors = require("cors")
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/search", searchRoutes);
+app.get("/vehicles", (req, res) => {
+    res.status(200).send({"status": "success", "msg": "user found"});
+})
 
-export default app;
+// app.use("/api/search", searchRoutes);
+app.listen(4000, () => console.log("Server running on http://localhost:4000"));

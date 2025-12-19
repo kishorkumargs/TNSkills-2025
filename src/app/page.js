@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react';
+import VehicleList from '@/components/VehicleList';
 
 export default function Home() {
   const [startDate, setStartDate] = useState(null);
@@ -31,7 +32,7 @@ export default function Home() {
             name="end-date"
             />
         </label>
-        
+        <VehicleList startDate={startDate} endDate={endDate}/>
       </div>
     </div>
   );
