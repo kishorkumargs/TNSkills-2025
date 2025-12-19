@@ -6,6 +6,7 @@ import VehicleList from '@/components/VehicleList';
 export default function Home() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [vehicles, setVehicles] = useState([]);
 
   async function fetchData() {
     const res = await fetch("http://localhost:4000/vehicles/available", {
@@ -15,6 +16,8 @@ export default function Home() {
     });
 
     const data = await res.json();
+    setVehicles(data.data);
+    console.log("Status:"+ data.status);
   }
 
   return (
@@ -42,7 +45,7 @@ export default function Home() {
             name="end-date"
             />
         </label>
-        <button onClick={() => {}}>Available vehicles</button>
+        <button onClick={() => fetchData()}>Available vehicles</button>
         <VehicleList startDate={startDate} endDate={endDate}/>
       </div>
     </div>
