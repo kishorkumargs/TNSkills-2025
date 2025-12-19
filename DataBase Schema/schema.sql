@@ -5,6 +5,7 @@ CREATE TABLE vehicles (
 	vehicle_id VARCHAR(20) PRIMARY KEY NOT NULL,
     reg_no VARCHAR(100) NOT NULL UNIQUE,
     type ENUM('Truck', 'Van', 'Car') NOT NULL,
+    status VARCHAR(30) NOT NULL,
     last_service_date DATE NOT NULL,
     current_odometer bigint,
     last_service_odometer bigint
