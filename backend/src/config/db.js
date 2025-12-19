@@ -1,5 +1,4 @@
-import mysql from "mysql2/promise";
-
+const mysql = require("mysql2/promise");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
@@ -10,4 +9,6 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-export default pool;
+if(pool) console.log("Database connected");
+
+module.exports = pool;

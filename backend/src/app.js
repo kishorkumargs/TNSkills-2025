@@ -2,7 +2,7 @@
 const express = require("express")
 const cors = require("cors")
 const app = express();
-const db = require("./config/db")
+const db = require("./config/db.js")
 
 app.use(cors());
 app.use(express.json());
@@ -19,7 +19,6 @@ app.get("/vehicles", async (req, res) => {
 app.post("/vehicles/available", async (res, req) => {
     try {
         const { startDate, endDate } = req.body;
-
         // Both start and end dates are required
         if(!startDate || !endDate){
             return res.status(400).json({
@@ -27,7 +26,6 @@ app.post("/vehicles/available", async (res, req) => {
                 msg: "start date and end date are required"
             })
         }
-
         // Verify whether the start date is before end date
         if(new Date(startDate) > new Date(endDate)){
             return res.status(400).json({
@@ -35,7 +33,6 @@ app.post("/vehicles/available", async (res, req) => {
                 msg: "start date cannot be after end date"
             })
         }
-
         // check constraints given
 //         New trip is strictly inside an existing trip.
 //         New trip overlaps the start or end of an existing trip.
@@ -51,12 +48,20 @@ app.post("/vehicles/available", async (res, req) => {
                         ))
                 order by v.type, v.vehicle_id`;
 
-        const [availableVehicles] = await db.query(query, startDate, startDate,
+        const [availableVehicles] = await db.query(query, [startDate, startDate,
                                                         endDate, endDate,
-                                                        startDate, endDate                                 
+                                                        startDate, endDate]
         )
+        res.status(200).json({ 
+            status: "success", 
+            data: availableVehicles,
+            count: availableVehicles.length
+        });
     } catch (e) {
-        res.send();
+        res.status(400).json({
+            status: "error",
+            msg: "start date cannot be after end date"
+        })
     }
 })
 
